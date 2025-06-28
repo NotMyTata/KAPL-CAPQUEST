@@ -48,7 +48,7 @@ function SelectClass({selectedValue, onChange}: Props) {
                     <SelectTrigger className="w-full">
                         <SelectValue placeholder="Sort By Class" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className='font-serif'>
                         <SelectGroup>
                         <SelectLabel>Classes</SelectLabel>
                          {roles.map((role) => (

@@ -24,17 +24,17 @@ const items = [
   },
   {
     title: "Active Quests",
-    url: "#",
+    url: "/pages/activequests",
     icon: IconSwords,
   },
   {
     title: "My Quests",
-    url: "#",
+    url: "/pages/myquests",
     icon: IconShield,
   },
   {
     title: "Create a Quest",
-    url: "#",
+    url: "/pages/createquest",
     icon: IconSword,
   },
 ]
