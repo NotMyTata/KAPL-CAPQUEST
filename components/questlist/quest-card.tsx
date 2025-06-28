@@ -18,7 +18,10 @@ function QuestCard({quest}: Props) {
             <div className='p-4 flex-cols h-full justify-center text-center space-y-6 border border-primary'>
                 <h1>HELP WANTED</h1>
                 <h1>{quest.title}</h1>
-                <h1 className='text-[8rem] leading-[6rem]'>{quest.difficulty}</h1>
+                <div className='flex justify-center items-end space-x-2'>
+                    <h1 className='text-[8rem] leading-[6rem]'>{quest.difficulty}</h1>
+                    <h1 className='text-muted-foreground w-fit h-fit text-sm'>Difficulty</h1>
+                </div>
                 <div>
                     {quest.roles.map((role, index) => (
                         <h1 key={index}>{role}</h1>
