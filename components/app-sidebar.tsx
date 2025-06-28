@@ -46,10 +46,11 @@ export function AppSidebar() {
 
 
   return (
-    <Sidebar className='font-sans'>
+    <Sidebar collapsible='icon' className='font-sans'>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel className="justify-center mt-2">
+          {/* <SidebarGroupLabel className="justify-center mt-2">
+            
             <Image
             width={500}
             height={500}
@@ -57,8 +58,21 @@ export function AppSidebar() {
             src={'/CAPQUEST.svg'}
             alt="logo"
             />
-          </SidebarGroupLabel>
-          <SidebarSeparator className='my-3'/>
+          </SidebarGroupLabel> */}
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <SidebarMenuButton className='justify-center items-center mt-2'>
+                 <Image
+                  width={500}
+                  height={500}
+                  className="dark:invert w-40"
+                  src={'/CAPQUEST.svg'}
+                  alt="logo"
+                  />
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
+          <SidebarSeparator className='mt-4 mb-4'/>
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => {
