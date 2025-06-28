@@ -1,10 +1,11 @@
-import addQuestUseCase from "@/application/usecase/addQuestUseCase";
+import { addQuestUseCase } from "@/application/usecase/addQuestUseCase";
 import { SupabaseProfileRepository } from "@/infrastructure/supabase/repository/profileRepositoryImplementation";
-import SupabaseQuestRepository from "@/infrastructure/supabase/repository/questRepositoryImplementation";
+import { SupabaseQuestRepository } from "@/infrastructure/supabase/repository/questRepositoryImplementation";
+import { SupabaseRoleRepository } from "@/infrastructure/supabase/repository/roleRepositoryImplementation";
 import { SupabaseUserRepository } from "@/infrastructure/supabase/repository/userRepositoryImplementation";
 import { NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(req: Request) {
     const questRepo = new SupabaseQuestRepository();
     const quest = await questRepo.fetchAllQuests();
 
@@ -14,6 +15,7 @@ export async function GET() {
 export async function POST(req: Request) {
     try {
         const questRepo = new SupabaseQuestRepository();
+        const roleRepo = new SupabaseRoleRepository();
         const userRepo = new SupabaseUserRepository();
         const profileRepo = new SupabaseProfileRepository();
         const body = await req.json();
@@ -28,21 +30,22 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: "Profile doesn't exist" }, { status: 400 })
         }
 
-        await addQuestUseCase(questRepo, {
+        await addQuestUseCase(questRepo, roleRepo, {
             name: body.name,
             description: body.description,
             difficulty: body.difficulty,
-            poster_id: profile.id
+            poster_id: profile.id,
+            roleIds: body.roleIds
         });
 
-        return NextResponse.json({ message: "New quest successfully added "},{ status: 201 });
+        return NextResponse.json({ message: "New quest successfully added "}, { status: 201 });
         
-    } catch (error){
-        let errorMessage = "Unknown Error";
-        if (error instanceof Error) {
-            errorMessage = error.message;
-        }
-        return NextResponse.json({ error: errorMessage }, { status: 400 });
+    } catch (error) {
+            let errorMessage = "Unknown Error";
+            if (error instanceof Error) {
+                errorMessage = error.message;
+            }
+            return NextResponse.json({ error: errorMessage }, { status: 400 });
     }
 }
 

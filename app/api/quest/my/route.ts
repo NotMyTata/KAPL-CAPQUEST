@@ -1,9 +1,10 @@
+import { fetchMyQuests } from "@/application/usecase/fetchMyQuests";
 import { SupabaseProfileRepository } from "@/infrastructure/supabase/repository/profileRepositoryImplementation";
-import SupabaseQuestRepository from "@/infrastructure/supabase/repository/questRepositoryImplementation";
+import { SupabaseQuestRepository } from "@/infrastructure/supabase/repository/questRepositoryImplementation";
 import { SupabaseUserRepository } from "@/infrastructure/supabase/repository/userRepositoryImplementation";
 import { NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(req: Request) {
     const questRepo = new SupabaseQuestRepository();
     const userRepo = new SupabaseUserRepository();
     const profileRepo = new SupabaseProfileRepository();
@@ -19,6 +20,6 @@ export async function GET() {
         return NextResponse.json({ error: "User does not exist" }, {status: 400});
     }
 
-    const quest = await questRepo.fetchQuestsByUserId(profile.id);
+    const quest = await fetchMyQuests(questRepo, profile.id);
     return NextResponse.json({ data: quest }, {status: 200});
 }

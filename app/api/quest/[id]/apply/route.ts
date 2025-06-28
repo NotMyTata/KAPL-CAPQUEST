@@ -1,21 +1,8 @@
-import { acceptApplicantUseCase } from "@/application/usecase/acceptApplicantUseCase";
-import { fetchQuestByIdUseCase } from "@/application/usecase/fetchQuestByIdUseCase";
+import { applyToQuestUseCase } from "@/application/usecase/applyToQuestUseCase";
 import { SupabaseProfileRepository } from "@/infrastructure/supabase/repository/profileRepositoryImplementation";
 import { SupabaseQuestRepository } from "@/infrastructure/supabase/repository/questRepositoryImplementation";
 import { SupabaseUserRepository } from "@/infrastructure/supabase/repository/userRepositoryImplementation";
 import { NextResponse } from "next/server";
-
-export async function GET(req: Request, { params }: {params: { id: number } }) {
-    const questRepo = new SupabaseQuestRepository();
-    const { id } = await params;
-    const quest = await fetchQuestByIdUseCase(questRepo, id);
-
-    if (!quest) {
-        return NextResponse.json({ error: "Quest not found" }, { status: 400 });
-    }
-
-    return NextResponse.json({ data: quest }, { status: 200 })
-}
 
 export async function POST(req: Request, { params }: {params: { id: number } }) {
     try {
@@ -24,8 +11,7 @@ export async function POST(req: Request, { params }: {params: { id: number } }) 
         const profileRepo = new SupabaseProfileRepository();
 
         const { id } = await params;
-        const body = await req.json();
-
+        
         const user = await userRepo.getCurrentUser();
         if (!user) {
             return NextResponse.json({ error: "User not logged in" }, { status: 400 });
@@ -36,9 +22,9 @@ export async function POST(req: Request, { params }: {params: { id: number } }) 
             return NextResponse.json({ error: "Profile doesn't exist" }, { status: 400 });
         }
 
-        await acceptApplicantUseCase(questRepo, id, profile.id, body.freelancer_id);
+        await applyToQuestUseCase(questRepo, id, profile.id);
 
-        return NextResponse.json({ message: "Successfully accepted applicant" }, { status: 200 });
+        return NextResponse.json({ message: "Successfully applied" }, { status: 201 });
     } catch (error) {
         let errorMessage = "Unknown Error";
         if (error instanceof Error) {
