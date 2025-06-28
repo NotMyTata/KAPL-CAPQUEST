@@ -15,6 +15,9 @@ import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { IconBrandGithub } from "@tabler/icons-react";
+import { Redirect } from "next";
+import { loginWithGithub } from "@/infrastructure/supabase/auth/login";
 
 export function LoginForm({
   className,
@@ -46,6 +49,11 @@ export function LoginForm({
       setIsLoading(false);
     }
   };
+  
+  const handleLoginGithub = async () => {
+    window.location.href = '/api/auth/github';
+  }
+  
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
@@ -91,6 +99,9 @@ export function LoginForm({
               {error && <p className="text-sm text-red-500">{error}</p>}
               <Button type="submit" className="w-full" disabled={isLoading}>
                 {isLoading ? "Logging in..." : "Login"}
+              </Button>
+              <Button onClick={() => handleLoginGithub()}>
+                Login with Github <IconBrandGithub />
               </Button>
             </div>
             <div className="mt-4 text-center text-sm">
