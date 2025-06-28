@@ -1,8 +1,10 @@
-import { createClient } from "../supabase/client";
+import { Quest } from "@/domain/entities/quest";
+import { createClient } from "../client";
+import { questRepository } from "@/domain/repositories/questRepository";
 
 const supabase = createClient();
 
-export default class QuestRepositoryImpl implements IQuestRepository {
+export default class SupabaseQuestRepository implements questRepository {
     async findById(id: number): Promise<Quest | null> {
         try {
             const { data, error } = await supabase
@@ -22,11 +24,10 @@ export default class QuestRepositoryImpl implements IQuestRepository {
         }
     }
     async add(quest: Quest): Promise<void> {
-        console.log(quest);
         try {
             const { error } = await supabase
                 .from("quests")
-                .insert(quest)
+                .insert(quest);
 
             if (error) throw error;
         } catch (error) {
