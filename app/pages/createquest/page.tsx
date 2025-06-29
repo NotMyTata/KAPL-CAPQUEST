@@ -55,7 +55,7 @@ function Page() {
   return (
      <div className="font-serif w-full h-full min-h-full flex items-center justify-center">
       <div className="rounded-xl border bg-card text-card-foreground shadow w-full h-full p-4 md:p-8 flex items-center justify-center">
-        <Card className="w-full h-full min-h-[70vh] border border-gray-400 rounded-none p-4 md:p-12 py-16 bg-white flex flex-col h-full">
+        <Card className="w-full h-full min-h-[70vh] border border-gray-400 rounded-none p-4 md:p-12 py-16 flex flex-col h-full">
             <div className='space-y-6 px-20'>
                 <h1 className='text-4xl'>Create A Quest</h1>
                 <div className='space-y-2'>
