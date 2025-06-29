@@ -3,6 +3,10 @@ import QuestCard from '@/components/questlist/quest-card'
 import QuestlistHeader from '@/components/questlist/questlist-header'
 import React, { useState, useMemo, useEffect } from 'react'
 
+export interface ApplicantWrapper {
+  applicant: Applicant
+}
+
 export interface Applicant {
   id: number
   username: string
@@ -29,7 +33,7 @@ export interface Quest {
   is_available: boolean
   is_finished: boolean
   roles: string[]
-  applicants: Applicant[]
+  applicants: ApplicantWrapper[]
   poster: Poster
   freelancer: Freelancer
 }

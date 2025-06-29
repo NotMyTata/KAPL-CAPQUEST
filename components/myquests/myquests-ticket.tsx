@@ -5,6 +5,7 @@ import { Button } from '../ui/button'
 import { Badge } from '../ui/badge'
 import { useRouter } from 'next/navigation'
 import React from 'react'
+import ProfileBadge from '../profile/profilebadge-questpages'
 
 interface Props {
     quest: Quest
@@ -39,11 +40,32 @@ function MyQuestsTicket({quest}: Props) {
                 <div>
                 <div className="flex items-center gap-1 mb-2 items-end">
                     <User className="w-4 h-4" />
-                    <span className="text-sm font-md">Client/s</span>
+                    {quest.is_available ? (
+                        
+                        <span className="text-sm font-md">Applicant/s</span>
+                    ): (
+                        <span className="text-sm font-md">Client</span>
+                    )}
                 </div>
                 <div className="flex flex-wrap gap-1">
-                    <span key={quest.freelancer?.id}>{quest.freelancer?.username}</span>
-                </div>
+                    {quest.is_available && quest.applicants?.length > 0 ? (
+                        quest.applicants.map((a) => (
+                        <ProfileBadge
+                            key={a.applicant.id}
+                            userId={a.applicant.id}
+                            username={a.applicant.username}
+                        />
+                        ))
+                    ) : quest.freelancer ? (
+                        <ProfileBadge
+                        key={quest.freelancer.id}
+                        userId={quest.freelancer.id}
+                        username={quest.freelancer.username}
+                        />
+                    ) : (
+                        <span className="text-muted-foreground text-sm italic">No applicants yet</span>
+                    )}
+                    </div>
                 </div>
             </div>
 

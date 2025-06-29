@@ -5,6 +5,7 @@ import { Button } from '../ui/button'
 import { Badge } from '../ui/badge'
 import { useRouter } from 'next/navigation'
 import React from 'react'
+import ProfileBadge from '../profile/profilebadge-questpages'
 
 interface Props {
     quest: Quest
@@ -43,7 +44,11 @@ function ActiveQuestTicket({quest}: Props) {
                     <span className="text-sm font-md">Job Poster</span>
                 </div>
                 <div className="flex flex-wrap gap-1">
-                    {quest.poster.username}
+                    <ProfileBadge
+                        key={quest.poster.id}
+                        userId={quest.poster.id}
+                        username={quest.poster.username}
+                    />
                 </div>
                 </div>
             </div>

@@ -14,6 +14,7 @@ import {
 import Image from "next/image"
 import { usePathname } from "next/navigation"
 import { useRouter } from "next/navigation"
+import { useEffect, useState } from 'react'
 
 // Menu items.
 const items = [
@@ -43,7 +44,24 @@ export function AppSidebar() {
 
   const pathname = usePathname();
   const router = useRouter();
+  const [profileId, setProfileId] = useState<number>()
 
+   const fetchUser = async () => {
+      try {
+        const res = await fetch("/api/profile/")
+        const result = await res.json()
+        
+        console.log(result.data.id)
+        setProfileId(result.data.id)
+
+      } catch (err) {
+        console.error("Error fetching current user profile", err)
+      }
+    }
+  
+  useEffect(() => {
+    fetchUser()
+  },[])
 
   return (
     <Sidebar collapsible='icon' className='font-sans'>
@@ -106,8 +124,8 @@ export function AppSidebar() {
             <SidebarMenuItem>
               <SidebarMenuButton
                 className="text-lg"
-                isActive={pathname === "/pages/profile"}
-                onClick={() => router.push("/pages/profile")}
+                isActive={pathname === `/pages/profile/${profileId}`}
+                onClick={() => router.push(`/pages/profile/${profileId}`)}
               >
                 <IconUser className='mr-2'/>
                 My Character
