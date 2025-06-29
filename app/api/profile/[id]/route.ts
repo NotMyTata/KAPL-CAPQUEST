@@ -1,13 +1,13 @@
 import { SupabaseProfileRepository } from "@/infrastructure/supabase/repository/profileRepositoryImplementation";
 import { NextResponse } from "next/server";
-import { profileRepository } from "@/domain/repositories/profileRepository";
+import { getProfileByIdUseCase } from "@/domain/usecase/getProfileByIdUseCase";
 
 export async function GET(
   req: Request,
   { params }: { params: { id: string } }
 ) {
   const profileRepo = new SupabaseProfileRepository();
-  const profile = await profileRepo.getProfileById(params.id);
+  const profile = await getProfileByIdUseCase(profileRepo, params.id);
 
   if (!profile) {
     return NextResponse.json({

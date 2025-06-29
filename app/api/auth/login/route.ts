@@ -1,4 +1,4 @@
-import { loginUseCase } from "@/application/usecase/loginUseCase"
+import { loginUseCase } from "@/domain/usecase/loginUseCase"
 import { SupabaseAuthRepository } from "@/infrastructure/supabase/repository/loginRepositoryImplementation"
 import { NextResponse } from "next/server"
 

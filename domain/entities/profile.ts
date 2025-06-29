@@ -2,7 +2,7 @@ export class Profile{
     id : number;
     username : string;
     description? : string;
-    rating? : number;
+    rating : number;
     avatar? : string;
     user_id : string;
 

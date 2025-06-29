@@ -7,8 +7,9 @@ export interface questRepository {
     fetchActiveQuestsByUserId(userId: number): Promise<Quest[]>;
     fetchQuestsByUserId(userId: number): Promise<Quest[]>;
     fetchQuestApplicant(questId: number, freelancerId: number): Promise<QuestApplicant | null>
-    add(quest: Quest, roleIds: number[]): Promise<void>;
-    apply(questId: number, freelancerId: number) : Promise<void>;
-    accept(questId: number, freelancerId: number) : Promise<void>;
-    finish(questId: number) : Promise<void>;
+    fetchQuestApplicants(questId: number): Promise<QuestApplicant[]>
+    add(quest: Quest, roleIds: number[]): Promise<Quest | null>;
+    apply(questId: number, freelancerId: number) : Promise<QuestApplicant | null>;
+    accept(questId: number, freelancerId: number) : Promise<Quest | null>;
+    finish(questId: number) : Promise<Quest | null>;
 }

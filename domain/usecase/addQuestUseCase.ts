@@ -20,7 +20,7 @@ export async function addQuestUseCase(questRepo: questRepository, roleRepo: role
             if (!existingRole) throw new Error(`Role with ID ${roleId} doesn't exist`);
         }
 
-        await questRepo.add({
+        return await questRepo.add({
             name: name,
             description: description,
             difficulty: difficulty,

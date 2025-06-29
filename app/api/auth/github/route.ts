@@ -1,4 +1,4 @@
-import { initiateGithubLogin } from "@/application/usecase/initiateGithubLogin";
+import { initiateGithubLogin } from "@/domain/usecase/initiateGithubLogin";
 import { NextResponse } from "next/server";
 
 export async function GET(){

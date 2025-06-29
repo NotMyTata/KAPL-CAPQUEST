@@ -1,20 +1,23 @@
-import { createNewProfile } from "@/application/usecase/createNewUserProfile";
-import { updateProfileUseCase } from "@/application/usecase/updateProfile";
+import { createNewProfile } from "@/domain/usecase/createNewUserProfile";
+import { getCurrentUserUseCase } from "@/domain/usecase/getCurrentUserUseCase";
+import { getProfileByUserIdUseCase } from "@/domain/usecase/getProfileByUserIdUseCase";
+import { updateProfileUseCase } from "@/domain/usecase/updateProfile";
 import { SupabaseProfileRepository } from "@/infrastructure/supabase/repository/profileRepositoryImplementation";
 import { SupabaseUserRepository } from "@/infrastructure/supabase/repository/userRepositoryImplementation";
 import { NextResponse } from "next/server";
 
 export async function GET(req: Request){
     const userRepo = new SupabaseUserRepository()
-    const user = await userRepo.getCurrentUser()
     const profileRepo = new SupabaseProfileRepository()
+    
+    const user = await getCurrentUserUseCase(userRepo);
 
     if(!user) return NextResponse.json({
         error : "User not found",
         status: 400
     })
 
-    const profile = await profileRepo.getProfileByUserId(user.id)
+    const profile = await getProfileByUserIdUseCase(profileRepo, user.id);
 
     if(!profile){
         return NextResponse.json({
@@ -37,7 +40,7 @@ export async function POST(req: Request){
 
         const body = await req.json()
 
-        const user = await userRepo.getCurrentUser()
+        const user = await getCurrentUserUseCase(userRepo);
         if(!user){
             return NextResponse.json({
                 error: "User not logged in", 
@@ -76,12 +79,12 @@ export async function PUT(req: Request) {
     const userRepo = new SupabaseUserRepository();
     const profileRepo = new SupabaseProfileRepository();
 
-    const user = await userRepo.getCurrentUser();
+    const user = await getCurrentUserUseCase(userRepo);
     if (!user) {
         return NextResponse.json({ error: "User not found", status: 400 });
     }
 
-    const profile = await profileRepo.getProfileByUserId(user.id);
+    const profile = await getProfileByUserIdUseCase(profileRepo, user.id);
     if (!profile) {
         return NextResponse.json({ error: "Profile not found", status: 400 });
     }
