@@ -79,7 +79,7 @@ function Page() {
    useEffect(() => {
       const fetchQuests = async () => {
         try {
-            const res = await fetch('/api/quest/active')
+            const res = await fetch('/api/quest')
 
             // Check if the response is NOT OK (status not in 200–299 range)
             if (!res.ok) {
