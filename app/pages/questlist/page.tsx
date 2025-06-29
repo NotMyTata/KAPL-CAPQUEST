@@ -1,36 +1,65 @@
 'use client'
-
 import QuestCard from '@/components/questlist/quest-card'
 import QuestlistHeader from '@/components/questlist/questlist-header'
 import React, { useState, useMemo } from 'react'
 
-export type Quest = {
+export interface Client {
   id: number
-  title: string
+  username: string
+}
+
+export interface Poster {
+  id: number
+  username: string
+}
+
+export interface Quest {
+  id: number
+  name: string
+  difficulty: 'S' | 'A' | 'B' | 'C'
+  rating: number
+  description: string
   roles: string[]
-  difficulty: string
+  clients: Client[]
+  poster: Poster
 }
 
 const questList: Quest[] = [
   {
     id: 1,
-    title: 'Website Development',
+    name: 'Website Development',
     difficulty: 'A',
+    rating: 1800,
+    description:
+      'Build a responsive website using modern technologies like React and Node.js. Ensure cross-platform compatibility and accessibility.',
     roles: ['Front-End Developers', 'Back-end Developers', 'AI - Engineers'],
+    clients: [{ id: 1, username: 'poster01' }],
+    poster: {id: 1, username: 'JobPoster01'}
   },
   {
     id: 2,
-    title: 'Mobile App Redesign',
+    name: 'Mobile App Redesign',
     difficulty: 'B',
+    rating: 1600,
+    description:
+      'Redesign an outdated mobile application with a modern, clean UI using Flutter. Focus on user-centered design principles.',
     roles: ['UI/UX Designer', 'Flutter Devs'],
+    clients: [{ id: 2, username: 'poster02' }],
+    poster: {id: 1, username: 'JobPoster01'}
   },
   {
     id: 3,
-    title: 'Data Analytics',
+    name: 'Data Analytics',
     difficulty: 'C',
+    rating: 1400,
+    description:
+      'Perform data analysis on customer behavior to generate actionable insights using Python and data visualization tools.',
     roles: ['Data Scientists', 'Python Devs'],
+    clients: [{ id: 3, username: 'poster03' }],
+    poster: {id: 1, username: 'JobPoster01'}
   },
 ]
+
 
 function Page() {
   const [filters, setFilters] = useState<{ class?: string; difficulty?: string }>({})

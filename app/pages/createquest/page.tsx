@@ -45,7 +45,7 @@ function Page() {
     }
 
     const handleSubmit = () => {
-
+        
     }
 
     useEffect(() => {
@@ -55,7 +55,7 @@ function Page() {
   return (
      <div className="font-serif w-full h-full min-h-full flex items-center justify-center">
       <div className="rounded-xl border bg-card text-card-foreground shadow w-full h-full p-4 md:p-8 flex items-center justify-center">
-        <Card className="w-full h-full min-h-[70vh] border border-gray-400 rounded-none p-4 md:p-12 py-16 bg-white flex flex-col h-full">
+        <Card className="w-full h-full min-h-[70vh] border rounded-none p-4 md:p-12 py-16 flex flex-col h-full">
             <div className='space-y-6 px-20'>
                 <h1 className='text-4xl'>Create A Quest</h1>
                 <div className='space-y-2'>
@@ -98,9 +98,9 @@ function Page() {
                         <DropdownMenuTrigger asChild>
                             <button
                             type="button"
-                            className="w-10 h-10 border border-gray-300 bg-white hover:bg-gray-50 flex items-center justify-center text-gray-700 rounded-full"
+                            className="w-10 h-10 border hover:bg-gray-50 flex items-center justify-center text-gray-700 rounded-full"
                             >
-                            <Plus className="w-5 h-5" />
+                            <Plus className="w-5 h-5 dark:invert" />
                             </button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="start" className="w-48 font-serif text-xl">
@@ -141,8 +141,8 @@ function Page() {
                             key={idx}
                             variant={'outline'}
                             onClick={() => setSelectedDifficulty(rating)}
-                            className={`w-12 h-12 border border-gray-300 text-lg font-serif transition-colors ${
-                                selectedDifficulty === rating ? "bg-gray-200 text-gray-900" : "bg-white text-gray-700 hover:bg-gray-50"
+                            className={`w-12 h-12 rounded-3xl text-lg font-serif transition-colors ${
+                                selectedDifficulty === rating ? "border border-primary font-bold" : "text-foreground"
                             }`}
                             >
                                 {rating}
@@ -151,7 +151,7 @@ function Page() {
                     </div>
                 </div>
                 <Button
-                variant={'outline'}
+                variant={'default'}
                 className='w-full h-12 text-2xl'
                 onClick={() => handleSubmit()}
                 >

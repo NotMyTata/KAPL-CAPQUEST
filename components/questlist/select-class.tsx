@@ -37,10 +37,10 @@ function SelectClass({selectedValue, onChange}: Props) {
             <CardHeader>
                 <div>
                     <CardTitle className='text-center text-xl'>
-                        Class
+                        Role
                     </CardTitle>
                     <CardDescription className='text-center text-xl'>
-                        Sort By Class:
+                        Sort By Role:
                     </CardDescription>
                 </div>
                 <div className='justify-center flex'>
