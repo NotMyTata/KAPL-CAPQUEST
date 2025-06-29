@@ -192,6 +192,11 @@ export class SupabaseQuestRepository implements questRepository {
         if (error) throw new Error(error.message);
         if (!quest) return null;
 
-        return quest;
+        return {
+            ...quest,
+            freelancer: {
+                id: quest.freelancer_id
+            }
+        };
     }
 }
