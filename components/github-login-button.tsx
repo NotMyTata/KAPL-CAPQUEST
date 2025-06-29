@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { createClient } from "@/infrastructure/supabase/client";
+// import { createClient } from "@/infrastructure/supabase/client";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -10,23 +10,27 @@ export function GitHubLoginButton() {
   const router = useRouter();
 
   const handleGitHubLogin = async () => {
-    const supabase = createClient();
+    // const supabase = createClient();
     setIsLoading(true);
+    window.location.href = "/api/auth/github";
+    setIsLoading(false)
 
-    try {
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider: "github",
-        options: {
-          redirectTo: `${window.location.origin}/auth/callback`,
-        },
-      });
+    //using auth/github api
+
+    // try {
+    //   const { error } = await supabase.auth.signInWithOAuth({
+    //     provider: "github",
+    //     options: {
+    //       redirectTo: `${window.location.origin}/auth/callback`,
+    //     },
+    //   });
       
-      if (error) throw error;
-    } catch (error) {
-      console.error("GitHub login error:", error);
-    } finally {
-      setIsLoading(false);
-    }
+    //   if (error) throw error;
+    // } catch (error) {
+    //   console.error("GitHub login error:", error);
+    // } finally {
+    //   setIsLoading(false);
+    // }
   };
 
   return (

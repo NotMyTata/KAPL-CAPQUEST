@@ -16,7 +16,7 @@ function MyQuestsTicket({quest}: Props) {
         router.push(`quest/${quest.id}`)
     }
   return (
-    <Card className="border border-bg bg-card w-full">
+    <Card key={quest.id} className="border border-bg bg-card w-full">
         <CardHeader className="pb-4">
             <div className="flex items-start justify-between">
             <div className="flex-1">
@@ -42,9 +42,7 @@ function MyQuestsTicket({quest}: Props) {
                     <span className="text-sm font-md">Client/s</span>
                 </div>
                 <div className="flex flex-wrap gap-1">
-                    {quest.clients.map((client) => (
-                        <span key={client.id}>{client.username}</span>
-                    ))}
+                    <span key={quest.freelancer?.id}>{quest.freelancer?.username}</span>
                 </div>
                 </div>
             </div>

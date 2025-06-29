@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Card, CardHeader, CardTitle, CardDescription } from '../ui/card'
 import { 
     Select, 
@@ -30,7 +30,38 @@ interface Props {
     onChange: (value: string) => void
 }
 
+interface Role {
+    id: number
+    name: string
+}
+
 function SelectClass({selectedValue, onChange}: Props) {
+    const [roles, setRoles] = useState<Role[]>([])
+
+    const fetchRoles = async () => {
+        try {
+            const res = await fetch("/api/roles", {
+            method: "GET",
+            });
+
+            const data = await res.json();
+
+            if (!res.ok) {
+            throw new Error(data.error ?? "Failed to fetch roles");
+            }
+
+            console.log("Roles:", data.data); // array of roles
+            setRoles(data.data)
+        } catch (err) {
+            console.error("Error fetching roles:", err);
+            return [];
+        }
+    };
+
+    useEffect(() => {
+        fetchRoles()
+    },[])
+
   return (
     <div>
          <Card>
@@ -46,13 +77,13 @@ function SelectClass({selectedValue, onChange}: Props) {
                 <div className='justify-center flex'>
                      <Select value={selectedValue} onValueChange={onChange}>
                     <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Sort By Class" />
+                        <SelectValue placeholder="Sort By Role" />
                     </SelectTrigger>
                     <SelectContent className='font-serif'>
                         <SelectGroup>
-                        <SelectLabel>Classes</SelectLabel>
+                        <SelectLabel>Roles</SelectLabel>
                          {roles.map((role) => (
-                            <SelectItem key={role.class_id} value={role.name}>
+                            <SelectItem key={role.id} value={role.name}>
                             {role.name}
                             </SelectItem>
                         ))}

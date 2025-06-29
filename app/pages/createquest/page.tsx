@@ -9,15 +9,15 @@ import { Textarea } from '@/components/ui/textarea'
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from '@/components/ui/dropdown-menu'
 import { Plus } from 'lucide-react'
 
-const availableRoles = [
-    "Front-End",
-    "Back-End",
-    "AI Wizard",
-    "DevOps",
-    "UI/UX Designer",
-    "Product Manager",
-    "QA Tester",
-]
+// const availableRoles = [
+//     "Front-End",
+//     "Back-End",
+//     "AI Wizard",
+//     "DevOps",
+//     "UI/UX Designer",
+//     "Product Manager",
+//     "QA Tester",
+// ]
 
 const ratings = [
     'A',
@@ -28,25 +28,87 @@ const ratings = [
     'F',
 ]
 
+interface Role {
+    id: number
+    name: string
+}
+
 function Page() {
     const [title, setTitle] = useState('')
-    const [descripton, setDescription] = useState('')
-    const [selectedRoles, setSelectedRoles] = useState<string[]>([])
+    const [description, setDescription] = useState('')
+    const [selectedRoles, setSelectedRoles] = useState<Role[]>([])
     const [selectedDifficulty, setSelectedDifficulty] = useState('')
+    const [availableRoles, setAvailableRoles] = useState<Role[]>([])
+    
+    const fetchRoles = async () => {
+        try {
+            const res = await fetch("/api/roles", {
+            method: "GET",
+            });
 
-    const addRole = (role: string) => {
-        if (!selectedRoles.includes(role)) {
-            setSelectedRoles((prev) => [...prev, role])
+            const data = await res.json();
+
+            if (!res.ok) {
+            throw new Error(data.error ?? "Failed to fetch roles");
+            }
+
+            console.log("Roles:", data.data); // array of roles
+            setAvailableRoles(data.data)
+        } catch (err) {
+            console.error("Error fetching roles:", err);
+            return [];
         }
-    }
+    };
 
-    const removeRole = (roleToRemove: string) => {
-        setSelectedRoles((prev) => prev.filter((role) => role !== roleToRemove))
-    }
+    useEffect(() => {
+        fetchRoles()
+    },[])
+
+    const addRole = (role: Role) => {
+        if (!selectedRoles.some((r) => r.id === role.id)) {
+        setSelectedRoles((prev) => [...prev, role]);
+        }
+    };
+
+    const removeRole = (roleToRemove: Role) => {
+        setSelectedRoles((prev) =>
+        prev.filter((role) => role.id !== roleToRemove.id)
+        );
+    };
+    
+    const postNewQuest = async () => {
+        try {
+            const res = await fetch('/api/quest', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                name: title,
+                description: description,
+                difficulty: selectedDifficulty,
+                roleIds: selectedRoles.map(role => role.id)
+            }),
+            });
+
+            const data = await res.json();
+
+            if (!res.ok) {
+            console.error("Quest creation failed:", data.error);
+            return;
+            }
+
+            console.log("Quest created:", data.data);
+        } catch (err) {
+            console.error("Unexpected error:", err);
+        }
+    };
 
     const handleSubmit = () => {
-        
+        postNewQuest()
     }
+
+
 
     useEffect(() => {
         console.log(selectedRoles)
@@ -81,8 +143,8 @@ function Page() {
                         Description
                     </Label>
                     <Textarea
-                    value={descripton}
-                    onChange={(e) => setDescription+(e.target.value)}
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
                     placeholder='Quest Description'
                     />
                 </div>
@@ -94,38 +156,49 @@ function Page() {
                         Roles
                     </Label>
                     <div className='flex gap-3'>
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <button
-                            type="button"
-                            className="w-10 h-10 border hover:bg-gray-50 flex items-center justify-center text-gray-700 rounded-full"
-                            >
-                            <Plus className="w-5 h-5 dark:invert" />
-                            </button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="start" className="w-48 font-serif text-xl">
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <button
+                                type="button"
+                                className="w-10 h-10 border hover:bg-gray-50 flex items-center justify-center text-gray-700 rounded-full"
+                                >
+                                <Plus className="w-5 h-5 dark:invert" />
+                                </button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="start" className="w-48 font-serif text-xl">
                             {availableRoles
-                            .filter((role) => !selectedRoles.includes(role))
+                            .filter(
+                                (role) =>
+                                !selectedRoles.some(
+                                    (selected) => selected.id === role.id
+                                )
+                            )
                             .map((role) => (
-                                <DropdownMenuItem key={role} onClick={() => addRole(role)}>
-                                {role}
+                                <DropdownMenuItem
+                                key={role.id}
+                                onClick={() => addRole(role)}
+                                >
+                                {role.name}
                                 </DropdownMenuItem>
                             ))}
-                        </DropdownMenuContent>
-                    </DropdownMenu>
-                    {selectedRoles.map((role) => (
-                        <Badge key={role} variant={'outline'} 
-                        className="px-4 py-2 text-md rounded-2xl font-serif font-normal">
-                        {role}
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                        {selectedRoles.map((role) => (
+                        <Badge
+                            key={role.id}
+                            variant={"outline"}
+                            className="px-4 py-2 text-md rounded-2xl font-serif font-normal"
+                        >
+                            {role.name}
                         <button
-                            type="button"
-                            onClick={() => removeRole(role)}
-                            className="ml-2 "
+                        type="button"
+                        onClick={() => removeRole(role)}
+                        className="ml-2"
                         >
                             ×
-                        </button>
+                            </button>
                         </Badge>
-                    ))}
+                        ))}
                     </div>
                 </div>
                 <div className='space-y-2'>

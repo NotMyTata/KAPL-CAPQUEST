@@ -19,7 +19,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export function LoginForm({
-  className,
+  className,  
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
   const [email, setEmail] = useState("");
@@ -28,24 +28,57 @@ export function LoginForm({
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
+
+
+  async function createProfile(description: string) {
+    const res = await fetch("/api/profile", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ description })
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.error || "Failed to create profile");
+    }
+
+    return data.data; // assuming your API returns { data: profile }
+  }
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    const supabase = createClient();
+    // const supabase = createClient();
     setIsLoading(true);
     setError(null);
 
     try {
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
-      if (error) throw error;
-      // Update this route to redirect to an authenticated route. The user already has an active session.
-      router.push("/protected");
-    } catch (error: unknown) {
-      setError(error instanceof Error ? error.message : "An error occurred");
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ email, password }),
+        credentials: "include"
+      })
+
+      const data = await res.json()
+      if (!res.ok) {
+        setError(data.error ?? "Login failed")
+      } else {
+        // ✅ Success: handle result
+        router.push('/pages/questlist')
+        console.log("Login success:", data)
+        // const profile = await createProfile('');
+        // console.log("Profile created:", profile);
+        // You can store user token, session, redirect, etc.
+      }
+    } catch (err) {
+      setError("Network error: " + err)
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
   };
 

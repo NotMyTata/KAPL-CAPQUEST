@@ -20,6 +20,7 @@ function QuestlistHeader({onFiltersChange}: Props) {
         const supabase = createClient()
         const {data, error} = await supabase.auth.getUser()
         const displayName = data.user?.email
+        console.log(data.user?.id)
 
         setUsername(displayName)
     }
