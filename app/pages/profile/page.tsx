@@ -1,148 +1,96 @@
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { 
-  IconStar, 
-  IconTrophy, 
-  IconBrandLinkedin, 
-  IconBrandGithub, 
-  IconBrandInstagram, 
-  IconLink, 
-  IconSwords, 
-  IconBuildingCastle 
-} from "@tabler/icons-react";
-import { LuFlaskRound, LuScroll, LuPhone } from "react-icons/lu";
-import { PiCompassRose } from "react-icons/pi";
-import { HiOutlineUserGroup } from "react-icons/hi2";
-import { CiGlobe } from "react-icons/ci";
+import { Card } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { IconStar } from '@tabler/icons-react'
+import { LuScroll, LuFlaskRound } from 'react-icons/lu'
+import { IconSwords } from '@tabler/icons-react'
+
+const skills = [
+  'JavaScript',
+  'PostgreSQL',
+  'PostgreSQL',
+  'TypeScript',
+  'Counter Strike',
+  'PostgreSQL',
+];
+
+const quests = [
+  {
+    title: 'E-Commerce Platform',
+    desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis gravida,',
+    status: 'Completed',
+  },
+  {
+    title: 'Mobile App Launch',
+    desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis gravida,',
+    status: 'Completed',
+  },
+];
 
 export default function ProfilePage() {
   return (
-    <div className="flex flex-col items-center w-full max-w-6xl mx-auto py-10 gap-8 font-serif text-lg md:text-xl">
+    <div className="flex flex-col items-center w-full max-w-4xl mx-auto py-6 gap-6 font-serif text-base">
       {/* Profile Header */}
-      <div className="flex flex-col items-center gap-4 w-full">
-        <div className="rounded-full border-4 border-foreground/20 w-40 h-40 flex items-center justify-center bg-white overflow-hidden">
-          {/* Profile photo placeholder*/}
+      <div className="flex flex-col items-center w-full gap-2">
+        <div className="rounded-full border-4 border-black w-32 h-32 flex items-center justify-center bg-white overflow-hidden">
+          {/* Profile photo placeholder */}
         </div>
-        <div className="text-4xl font-medium">John Mustard</div>
-        <div className="text-muted-foreground text-xl">
-          @johnmustard
+        <div className="text-2xl md:text-3xl font-semibold mt-1">User</div>
+        <div className="text-base text-muted-foreground">@user</div>
+        <div className="mt-1">
+          <div className="border rounded-lg px-5 py-1 text-base font-semibold">Rating :</div>
         </div>
-        <div className="flex gap-4 mt-2">
-          <Button variant="secondary" size="lg">Senior Developer</Button>
-          <Button variant="secondary" size="lg">Outlaw</Button>
-        </div>
-      </div>
-      
-      {/* Bio & Skills */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
-        <Card className="w-full">
-          <CardContent className="p-6">
-            <div className="flex items-center gap-2 mb-2 text-2xl font-semibold">
-              <LuScroll size={24}/> Character Bio</div>
-            <div className="text-muted-foreground text-base leading-relaxed">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis gravida, neque vitae lobortis pharetra, lacus metus ullamcorper sem, sit amet auctor tortor sem vitae turpis. Etiam in vestibulum massa. Aliquam ipsum elit, hendrerit et dapibus ut, aliquet quis libero. Aliquam a consectetur nisl, ut convallis leo.
-            </div>
-          </CardContent>
-        </Card>
-        <Card className="w-full">
-          <CardContent className="p-6">
-            <div className="flex items-center gap-2 mb-2 text-2xl font-semibold">
-              <LuFlaskRound size={24}/> Abilities & Skills</div>
-            <div className="flex flex-wrap gap-2">
-              <Badge variant="secondary" className="flex items-center gap-1 text-base">
-                <IconTrophy size={18}/> JavaScript</Badge>
-              <Badge variant="secondary" className="flex items-center gap-1 text-base">
-                <IconTrophy size={18}/> TypeScript</Badge>
-                <Badge variant="secondary" className="flex items-center gap-1 text-base">
-                  <IconTrophy size={18}/> Counter Strike</Badge>
-                <Badge variant="secondary" className="flex items-center gap-1 text-base">
-                  <IconTrophy size={18}/> PostgreSQL</Badge>
-                <Badge variant="secondary" className="flex items-center gap-1 text-base">
-                  <IconTrophy size={18}/> PostgreSQL</Badge>
-                <Badge variant="secondary" className="flex items-center gap-1 text-base">
-                  <IconTrophy size={18}/> PostgreSQL</Badge>
-            </div>
-          </CardContent>
-        </Card>
       </div>
 
-      {/* Quest Log */}
-      <Card className="w-full">
-        <CardContent className="p-6">
-          <div className="flex items-center gap-2 mb-4 text-2xl font-semibold">
-            <IconSwords size={24}/> Quest Log</div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="border rounded-lg p-4 flex flex-col gap-2 bg-muted/30">
-              <div className="flex items-center gap-2 font-semibold text-xl">
-                <IconSwords size={20}/> E-Commerce Platform</div>
-              <div className="text-base text-muted-foreground">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque euismod, urna eu tincidunt consectetur, nisi nisl aliquam nunc, eget aliquam massa nisl quis neque.</div>
-              <Badge variant="secondary" className="w-fit bg-green-100 text-green-800 border-green-200 text-base">Completed</Badge>
-            </div>
-            <div className="border rounded-lg p-4 flex flex-col gap-2 bg-muted/30">
-              <div className="flex items-center gap-2 font-semibold text-xl">
-                <IconSwords size={20}/> Mobile App Launch</div>
-              <div className="text-base text-muted-foreground">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque euismod, urna eu tincidunt consectetur, nisi nisl aliquam nunc, eget aliquam massa nisl quis neque.</div>
-              <Badge variant="secondary" className="w-fit bg-green-100 text-green-800 border-green-200 text-base">Completed</Badge>
-            </div>
-            <div className="border rounded-lg p-4 flex flex-col gap-2 bg-muted/30">
-              <div className="flex items-center gap-2 font-semibold text-xl">
-                <IconSwords size={20}/> AI Integration</div>
-              <div className="text-base text-muted-foreground">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque euismod, urna eu tincidunt consectetur, nisi nisl aliquam nunc, eget aliquam massa nisl quis neque.</div>
-              <Badge variant="secondary" className="w-fit bg-yellow-100 text-yellow-800 border-yellow-200 text-base">In Progress</Badge>
-            </div>
+      {/* Bio & Skills */}
+      <Card className="w-full p-4 flex flex-col md:flex-row gap-4 items-start rounded-xl border bg-card text-card-foreground shadow">
+        {/* Character Bio */}
+        <div className="flex-1 min-w-[250px]">
+          <div className="flex items-center gap-2 mb-1 text-lg font-semibold">
+            <LuScroll size={24}/> Character Bio
           </div>
-        </CardContent>
+          <div className="text-sm md:text-base leading-relaxed">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis gravida, neque vitae lobortis pharetra, lacus metus ullamcorper sem, sit amet auctor tortor sem vitae turpis. Etiam in vestibulum massa. Aliquam ipsum elit, hendrerit et dapibus ut, aliquet quis libero. Aliquam a consectetur nisl, ut convallis leo.
+          </div>
+        </div>
+        {/* Abilities & Skills */}
+        <div className="flex-1 min-w-[250px]">
+          <div className="flex items-center gap-2 mb-1 text-lg font-semibold">
+            <LuFlaskRound size={24}/> Abilities & Skills
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {skills.map((skill, idx) => (
+              <Badge key={idx} variant="secondary" className="text-base">{skill}</Badge>
+            ))}
+          </div>
+        </div>
       </Card>
 
-      {/* Location & Contact, Quest Completed, Guild Connections */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
-        <Card className="w-full">
-          <CardContent className="p-6 flex flex-col gap-2">
-            <div className="flex items-center gap-2 mb-2 text-2xl font-semibold">
-              <PiCompassRose size={24}/> Location & Contact</div>
-            <div className="flex items-center gap-2 text-lg">
-              <IconBuildingCastle size={18}/> Surabaya</div>
-            <div className="flex items-center gap-2 text-lg">
-              <LuScroll size={18}/> johnmustard@rockstar.com</div>
-            <div className="flex items-center gap-2 text-lg">
-              <LuPhone size={18}/> 0123456798</div>
-            <div className="flex items-center gap-2 text-lg">
-              <CiGlobe size={18}/> johnmustard.com</div>
-          </CardContent>
+      {/* Quest Log & Quest Completed */}
+      <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-4">
+        {/* Quest Log */}
+        <Card className="col-span-2 p-4 rounded-xl border bg-card text-card-foreground shadow">
+          <div className="flex items-center gap-2 mb-2 text-lg font-semibold">
+            <IconSwords size={24}/> Quest Log
+          </div>
+          <div className="flex flex-col md:flex-row gap-3">
+            {quests.map((quest, idx) => (
+              <div key={idx} className="flex-1 border rounded-xl p-3 bg-muted/30 flex flex-col gap-1">
+                <div className="font-semibold text-base md:text-lg">{quest.title}</div>
+                <div className="text-xs text-muted-foreground">{quest.desc}</div>
+                <Badge variant="secondary" className="w-fit text-xs">{quest.status}</Badge>
+              </div>
+            ))}
+          </div>
         </Card>
-        <Card className="w-full">
-          <CardContent className="p-6 flex flex-col items-center justify-center gap-2">
-            <div className="flex items-center gap-2 mb-2 text-2xl font-semibold">
-              <IconStar size={24}/> Quest Completed</div>
-            <div className="text-5xl md:text-6xl font-bold">24,750</div>
-            <div className="text-lg text-muted-foreground">Quest</div>
-          </CardContent>
-        </Card>
-        <Card className="w-full">
-          <CardContent className="p-6 flex flex-col gap-2">
-            <div className="flex items-center gap-2 mb-2 text-2xl font-semibold">
-              <HiOutlineUserGroup size={24}/> Guild Connections</div>
-            <div className="flex flex-wrap gap-2">
-              <a href="https://linkedin.com" target="_blank">
-                <Button variant="secondary" size="lg" className="flex items-center gap-1">
-                  <IconBrandLinkedin size={18}/> LinkedIn</Button></a>
-              <a href="https://github.com" target="_blank">
-                <Button variant="secondary" size="lg" className="flex items-center gap-1">
-                  <IconBrandGithub size={18}/> GitHub</Button></a>
-              <a href="https://instagram.com" target="_blank">
-                <Button variant="secondary" size="lg" className="flex items-center gap-1">
-                  <IconBrandInstagram size={18}/> Instagram</Button></a>
-              <a href=" " target="_blank">
-                <Button variant="secondary" size="lg" className="flex items-center gap-1">
-                  <IconLink size={18}/> Portfolio</Button></a>
-            </div>
-          </CardContent>
+        {/* Quest Completed */}
+        <Card className="flex flex-col items-center justify-center p-4 rounded-xl border bg-card text-card-foreground shadow">
+          <div className="flex items-center gap-2 mb-1 text-lg font-semibold">
+            <IconStar size={24}/> Quest Completed
+          </div>
+          <div className="text-3xl md:text-4xl font-bold">24,750</div>
+          <div className="text-base text-muted-foreground">Quest</div>
         </Card>
       </div>
     </div>
-  );
+  )
 } 

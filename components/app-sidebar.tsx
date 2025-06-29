@@ -1,5 +1,5 @@
 'use client'
-import {IconSwords, IconSword, IconShield, IconBuildingCastle, IconUser} from '@tabler/icons-react'
+import {IconSwords, IconSword, IconShield, IconBuildingCastle, IconUser, IconMail} from '@tabler/icons-react'
 import {
   Sidebar,
   SidebarContent,
@@ -24,17 +24,17 @@ const items = [
   },
   {
     title: "Active Quests",
-    url: "#",
+    url: "/pages/activequests",
     icon: IconSwords,
   },
   {
     title: "My Quests",
-    url: "#",
+    url: "/pages/myquests",
     icon: IconShield,
   },
   {
     title: "Create a Quest",
-    url: "#",
+    url: "/pages/createquest",
     icon: IconSword,
   },
 ]
@@ -93,6 +93,16 @@ export function AppSidebar() {
                 )
               })}
             <SidebarSeparator className='my-3'/>
+            <SidebarMenuItem>
+              <SidebarMenuButton
+                className="text-lg"
+                isActive={pathname === "/pages/inbox"}
+                onClick={() => router.push("/pages/inbox")}
+              >
+                <IconMail className='mr-2'/>
+                Inbox
+              </SidebarMenuButton>
+            </SidebarMenuItem>
             <SidebarMenuItem>
               <SidebarMenuButton
                 className="text-lg"

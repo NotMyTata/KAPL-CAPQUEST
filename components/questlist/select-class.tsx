@@ -37,10 +37,10 @@ function SelectClass({selectedValue, onChange}: Props) {
             <CardHeader>
                 <div>
                     <CardTitle className='text-center text-xl'>
-                        Class
+                        Role
                     </CardTitle>
                     <CardDescription className='text-center text-xl'>
-                        Sort By Class:
+                        Sort By Role:
                     </CardDescription>
                 </div>
                 <div className='justify-center flex'>
@@ -48,7 +48,7 @@ function SelectClass({selectedValue, onChange}: Props) {
                     <SelectTrigger className="w-full">
                         <SelectValue placeholder="Sort By Class" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className='font-serif'>
                         <SelectGroup>
                         <SelectLabel>Classes</SelectLabel>
                          {roles.map((role) => (

@@ -60,7 +60,7 @@ function SelectDifficulty({selectedValue, onChange}: Props) {
                     <SelectTrigger className="w-full">
                         <SelectValue placeholder="Sort By Difficulty" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className='font-serif'>
                         <SelectGroup>
                         <SelectLabel>Difficulty</SelectLabel>
                          {difficulty.map((diff) => (
