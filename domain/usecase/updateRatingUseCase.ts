@@ -6,9 +6,10 @@ export async function updateRatingUseCase(profileRepo: SupabaseProfileRepository
     if (!existingQuest) throw new Error("Quest not found");
     if (existingQuest.is_available) throw new Error("Quest is still available");
     if (!existingQuest.is_finished) throw new Error("Quest is still not finished");
-    if (!existingQuest.freelancer_id) throw new Error("No freelancer exist");
-    if (existingQuest.freelancer_id !== freelancerId) throw new Error("Freelancer ID doesn't match");
-    
+    if (!existingQuest.freelancer) throw new Error("No freelancer exist");
+    if (existingQuest.freelancer.id !== freelancerId) throw new Error("Freelancer ID doesn't match");
+    if (existingQuest.poster.id === freelancerId) throw new Error("Quest poster cannot update their own rating");
+
     const existingUserProfile = await profileRepo.getProfileById(freelancerId.toString());
     if (!existingUserProfile) throw new Error("User doesn't exist");
 
@@ -16,7 +17,7 @@ export async function updateRatingUseCase(profileRepo: SupabaseProfileRepository
     const newRating = existingUserProfile.rating + 5;
 
     return await profileRepo.updateRating({
-        id: freelancerId.toString(),
+        id: freelancerId,
         rating: newRating
     })
 }

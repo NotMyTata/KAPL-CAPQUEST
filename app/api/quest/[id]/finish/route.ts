@@ -26,12 +26,16 @@ export async function POST(req: Request, { params }: {params: { id: number } }) 
             }
     
             const quest = await finishQuestUseCase(questRepo, id, profile.id);
-            if (!quest || !quest.freelancer_id) {
+            if (!quest) {
                 return NextResponse.json({ error: "Quest doesn't exist" }, { status: 400 });
             }
 
-            const updatedProfile = await updateRatingUseCase(profileRepo, questRepo, id, quest.freelancer_id);
-    
+            if (!quest.freelancer) {
+                return NextResponse.json({ error: "Freelancer doesn't exist" }, { status: 400 });
+            }
+
+            const updatedProfile = await updateRatingUseCase(profileRepo, questRepo, id, quest.freelancer.id);
+
             return NextResponse.json({ data: {quest, updatedProfile} }, { status: 200 });
         } catch (error) {
             let errorMessage = "Unknown Error";

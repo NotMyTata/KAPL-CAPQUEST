@@ -1,5 +1,5 @@
 import { applyToQuestUseCase } from "@/domain/usecase/applyToQuestUseCase";
-import { fetchQuestApplicants } from "@/domain/usecase/fetchQuestApplicantsUseCase";
+import { fetchQuestApplicantsUseCase } from "@/domain/usecase/fetchQuestApplicantsUseCase";
 import { getCurrentUserUseCase } from "@/domain/usecase/getCurrentUserUseCase";
 import { getProfileByUserIdUseCase } from "@/domain/usecase/getProfileByUserIdUseCase";
 import { SupabaseProfileRepository } from "@/infrastructure/supabase/repository/profileRepositoryImplementation";
@@ -25,7 +25,7 @@ export async function GET(req: Request, { params }: {params: { id: number } }) {
             return NextResponse.json({ error: "Profile doesn't exist" }, { status: 400 });
         }
 
-        const questApplicants = await fetchQuestApplicants(questRepo, id, profile.id);
+        const questApplicants = await fetchQuestApplicantsUseCase(questRepo, id, profile.id);
 
         return NextResponse.json({ data: questApplicants }, { status: 201 });
     } catch (error) {

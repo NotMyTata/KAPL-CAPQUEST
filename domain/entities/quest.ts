@@ -1,3 +1,5 @@
+import { Profile } from "./profile";
+
 export interface Quest {
     id?: number;
     name: string;
@@ -5,6 +7,7 @@ export interface Quest {
     difficulty: "A" | "B" | "C"| "D" | "E";
     is_available: boolean;
     is_finished: boolean;
-    poster_id: number;
-    freelancer_id?: number;
+    applicants: Profile[];
+    poster: Profile;
+    freelancer?: Profile;
 }

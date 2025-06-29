@@ -1,5 +1,5 @@
 import { addQuestUseCase } from "@/domain/usecase/addQuestUseCase";
-import { fetchAllQuestsUseCase } from "@/domain/usecase/fetchAllQuestsUseCase";
+import { fetchQuestListUseCase } from "@/domain/usecase/fetchQuestList";
 import { getCurrentUserUseCase } from "@/domain/usecase/getCurrentUserUseCase";
 import { getProfileByUserIdUseCase } from "@/domain/usecase/getProfileByUserIdUseCase";
 import { SupabaseProfileRepository } from "@/infrastructure/supabase/repository/profileRepositoryImplementation";
@@ -9,10 +9,18 @@ import { SupabaseUserRepository } from "@/infrastructure/supabase/repository/use
 import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
-    const questRepo = new SupabaseQuestRepository();
-    const quests = await fetchAllQuestsUseCase(questRepo);
+    try {
+        const questRepo = new SupabaseQuestRepository();
+        const quests = await fetchQuestListUseCase(questRepo);
 
-    return NextResponse.json({ data: quests }, { status: 200 });
+        return NextResponse.json({ data: quests }, { status: 200 });
+    } catch (error) {
+        let errorMessage = "Unknown Error";
+        if (error instanceof Error) {
+            errorMessage = error.message;
+        }
+        return NextResponse.json({ error: errorMessage }, { status: 400 });
+    }
 }
 
 export async function POST(req: Request) {

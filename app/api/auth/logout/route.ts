@@ -9,4 +9,9 @@ export async function GET(){
         error : error.message,
         status : 400
     })
+
+    return NextResponse.json({
+        message : "Logout successful",
+        status : 200
+    })
 }

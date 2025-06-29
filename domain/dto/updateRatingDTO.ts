@@ -1,4 +1,4 @@
 export interface updateRatingDTO {
-    id: string,
+    id: number,
     rating: number,
 }

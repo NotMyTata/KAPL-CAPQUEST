@@ -3,20 +3,48 @@ import { createClient } from "../server";
 import { questRepository } from "@/domain/repositories/questRepository";
 import { QuestApplicant } from "@/domain/entities/questApplicant";
 import { QuestRoles } from "@/domain/entities/questRoles";
+import { addQuestDTO } from "@/domain/dto/addQuestDTO";
 
 export class SupabaseQuestRepository implements questRepository {
     async findById(id: number): Promise<Quest | null> {
         const supabase = await createClient();
         const { data: quest, error } = await supabase
-            .from("quests")
-            .select("*")
-            .eq("id", id)
-            .maybeSingle();
+            .rpc("get_quest", { questid: id });
 
         if (error) throw new Error(error.message);
         if (!quest) return null;
 
         return quest;
+    }
+    async fetchQuestList(): Promise<Quest[]> {
+        const supabase = await createClient();
+        const { data: questList, error } = await supabase
+            .rpc("get_all_quests_with_applicants_and_roles");
+
+        if (error) throw new Error(error.message);
+        if (!questList) return [];
+
+        return questList;
+    }
+    async fetchActiveQuestList(freelancerId: number): Promise<Quest[]> {
+        const supabase = await createClient();
+        const { data: activeQuestList, error } = await supabase
+            .rpc("get_active_quests_with_applicants_and_roles", { freelancerid: freelancerId });
+
+        if (error) throw new Error(error.message);
+        if (!activeQuestList) return [];
+        
+        return activeQuestList;
+    }
+    async fetchMyQuestList(posterId: number): Promise<Quest[]> {
+        const supabase = await createClient();
+        const { data: myQuestList, error } = await supabase
+            .rpc("get_my_quests_with_applicants_and_roles", { posterid: posterId });
+
+        if (error) throw new Error(error.message);
+        if (!myQuestList) return [];
+
+        return myQuestList;
     }
     async fetchAllQuests(): Promise<Quest[]>{
         const supabase = await createClient();
@@ -67,31 +95,38 @@ export class SupabaseQuestRepository implements questRepository {
 
         return questApplicant;
     }
-    async fetchQuestApplicants(questId: number): Promise<QuestApplicant[]> {
+    async fetchQuestApplicants(questId: number): Promise<any[]> {
         const supabase = await createClient();
         const { data: questApplicants, error } = await supabase
             .from("quest_applicants")
-            .select("*")
+            .select("user (*)")
             .eq("quest_id", questId)
 
         if (error) throw new Error(error.message);
         if (!questApplicants) return [];
 
-        return questApplicants;
+        return questApplicants.map(applicant => applicant.user);
     }
-    async add(quest: Quest, roleIds: number[]): Promise<Quest | null> {
+    async add(data: addQuestDTO): Promise<Quest | null> {
         const supabase = await createClient();
         const { data: newQuest, error: errorQuest } = await supabase
             .from("quests")
-            .insert(quest)
+            .insert({
+                name: data.name,
+                description: data.description,
+                difficulty: data.difficulty,
+                is_available: true,
+                is_finished: false,
+                poster_id: data.poster_id
+            })
             .select()
             .single();
 
         if (errorQuest) throw new Error(errorQuest.message);
 
-        const questRoles: Omit<QuestRoles, "id">[] = roleIds.map(roleId => ({
+        const questRoles: Omit<QuestRoles, "id">[] = data.roleIds.map(roleId => ({
             quest_id: newQuest.id,
-            roles_id: roleId,
+            role_id: roleId,
         }));
 
         const { error: errorRoles } = await supabase
