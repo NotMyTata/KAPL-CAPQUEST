@@ -1,4 +1,5 @@
 import { createProfileDTO } from "../dto/createProfileDTO";
+import { updateRatingDTO } from "../dto/updateRatingDTO";
 import { Profile } from "../entities/profile";
 
 export interface profileRepository{
@@ -16,5 +17,9 @@ export interface profileRepository{
 
     getProfileById(
         id : string
+    ) : Promise<Profile | null>
+
+    updateRating(
+        data: updateRatingDTO
     ) : Promise<Profile | null>
 }

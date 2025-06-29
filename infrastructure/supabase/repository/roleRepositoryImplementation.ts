@@ -4,20 +4,27 @@ import { createClient } from "../server";
 
 export class SupabaseRoleRepository implements roleRepository{
     async findById(id: number): Promise<Role | null> {
-        try {
-            const supabase = await createClient();
-            const { data, error } = await supabase
+        const supabase = await createClient();
+            const { data: role, error } = await supabase
                 .from("roles")
                 .select("*")
                 .eq("id", id)
                 .maybeSingle();
 
-            if (error) throw error;
+            if (error) throw new Error(error.message);
+            if (!role) return null;
             
-            return data as Role;
-        } catch (error) {
-            console.error(error);
-            return null;
-        }
+            return role;
+    }
+    async fetchAll(): Promise<Role[]> {
+        const supabase = await createClient();
+        const { data: roles, error } = await supabase
+            .from("roles")
+            .select("*")
+
+        if (error) throw new Error(error.message);
+        if (!roles) return [];
+
+        return roles;
     }
 }

@@ -1,5 +1,5 @@
 export interface createProfileDTO{
-    id? : string,
+    id? : number,
     username?: string,
     user_id? : string,
     description?: string,

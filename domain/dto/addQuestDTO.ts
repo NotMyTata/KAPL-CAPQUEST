@@ -1,7 +1,7 @@
 export interface addQuestDTO{
     name: string,
-    difficulty: "A" | "B" | "C"| "D" | "E";
-    poster_id: number,
+    difficulty: "A" | "B" | "C"| "D" | "E",
     roleIds: number[],
-    description?: string
+    description?: string,
+    poster_id: number
 }

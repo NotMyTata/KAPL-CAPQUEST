@@ -2,6 +2,7 @@ import { profileRepository } from "@/domain/repositories/profileRepository";
 import { createClient } from "../server";
 import { createProfileDTO } from "@/domain/dto/createProfileDTO";
 import { Profile } from "@/domain/entities/profile";
+import { updateRatingDTO } from "@/domain/dto/updateRatingDTO";
 
 export class SupabaseProfileRepository implements profileRepository {
     async createNewProfile(
@@ -101,5 +102,30 @@ export class SupabaseProfileRepository implements profileRepository {
             avatar : data.avatar,
             user_id : id
         }
+    }
+
+    async updateRating(data: updateRatingDTO): Promise<Profile | null> {
+        const supabase = await createClient()
+
+        const { data: profile, error } = await supabase
+            .from('user')
+            .update({
+                rating: data.rating
+            })
+            .eq('id', data.id)
+            .select()
+            .single()
+
+        if (error) throw new Error(error.message)
+        if (!profile) return null
+        
+        return {
+            id : profile.id,
+            username : profile.username,
+            description : profile.description,
+            rating : profile.rating,
+            avatar : profile.avatar,
+            user_id : profile.user_id
+        } 
     }
 }
