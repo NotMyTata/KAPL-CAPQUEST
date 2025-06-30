@@ -124,7 +124,7 @@ export default function ProfilePage() {
     )
   }
 
-  if (profile)
+  if (profile && canUpdate)
   return (
     <div>
       {canUpdate ? (
