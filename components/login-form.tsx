@@ -69,9 +69,9 @@ export function LoginForm({
         setError(data.error ?? "Login failed")
       } else {
         // ✅ Success: handle result
+        createProfile('')
         router.push('/pages/questlist')
         console.log("Login success:", data)
-        // const profile = await createProfile('');
         // console.log("Profile created:", profile);
         // You can store user token, session, redirect, etc.
       }

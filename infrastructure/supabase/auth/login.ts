@@ -22,7 +22,7 @@ export async function loginWithGithub(url: string){
             redirectTo: url
         }
     })
-
+    console.log(data)
     if (error) return Error(error.message)
 
     return data.url

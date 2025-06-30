@@ -15,6 +15,7 @@ import Image from "next/image"
 import { usePathname } from "next/navigation"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from 'react'
+import { toast } from 'sonner'
 
 // Menu items.
 const items = [
@@ -45,6 +46,7 @@ export function AppSidebar() {
   const pathname = usePathname();
   const router = useRouter();
   const [profileId, setProfileId] = useState<number>()
+  const [clickedProfile, setClickedProfile] = useState(false)
 
    const fetchUser = async () => {
       try {
@@ -62,6 +64,21 @@ export function AppSidebar() {
   useEffect(() => {
     fetchUser()
   },[])
+
+  function redirectToProfile(){
+    if (profileId){
+    router.push(`/pages/profile/${profileId}`)
+    } else {
+      toast.info('Please wait while we get the user data')
+      setClickedProfile(true)
+    }
+  }
+
+  useEffect(() => {
+    if (clickedProfile && profileId) {
+      router.push(`/pages/profile/${profileId}`)
+    }
+  }, [profileId, clickedProfile])
 
   async function handleLogout(){
       const res = await fetch("/api/auth/logout", {
@@ -141,7 +158,7 @@ export function AppSidebar() {
               <SidebarMenuButton
                 className="text-lg"
                 isActive={pathname === `/pages/profile/${profileId}`}
-                onClick={() => router.push(`/pages/profile/${profileId}`)}
+                onClick={() => redirectToProfile()}
               >
                 <IconUser className='mr-2'/>
                 My Character
