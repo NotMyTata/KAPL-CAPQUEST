@@ -2,8 +2,10 @@
 import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { useParams } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
+import { IconUser } from '@tabler/icons-react'
+import { toast } from 'sonner'
 
 interface Profile {
   id: number
@@ -47,6 +49,7 @@ interface Quest {
 export default function QuestPage() {
   const params = useParams()
   const id = Number(params.id)
+  const router = useRouter()
   const [quest, setQuest] = useState<Quest | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -95,6 +98,23 @@ export default function QuestPage() {
     }
   }, [id])
 
+
+  function getRatingRange(difficulty: 'A' | 'B' | 'C' | 'D' | 'E' | 'F'){
+    if (difficulty === 'A'){
+      return '1800 +'
+    } else if (difficulty === 'B'){
+      return '1440 - 1800'
+    } else if (difficulty === 'C'){
+      return '1080 - 1440'
+    } else if (difficulty === 'D'){
+      return '720 - 1080'
+    } else if (difficulty === 'E'){
+      return '360 - 720'
+    } else {
+      return '< 360'
+    }
+  }
+
   const handleApply = async () => {
     if (!quest || !currentUser) return
     
@@ -112,6 +132,7 @@ export default function QuestPage() {
         throw new Error(errorData.error || 'Failed to apply')
       }
 
+      toast.success("Successfully applied to quest!")
       window.location.reload()
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to apply')
@@ -159,7 +180,8 @@ export default function QuestPage() {
         const errorData = await response.json()
         throw new Error(errorData.error || 'Failed to accept applicant')
       }
-
+      
+      toast.success("Successfully accepted applicant!")
       window.location.reload()
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to accept applicant')
@@ -185,6 +207,7 @@ export default function QuestPage() {
         throw new Error(errorData.error || 'Failed to finish quest')
       }
 
+      toast.success("Successfully set quest as finished!")
       window.location.reload()
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to finish quest')
@@ -239,7 +262,7 @@ export default function QuestPage() {
                 <div className="text-lg mb-2">Difficulty</div>
                 <div className="flex items-center mb-6">
                   <span className="text-6xl font-bold font-serif">{quest.difficulty}</span>
-                  <span className="text-6xl font-bold font-serif ml-2">- {quest.poster.rating} +</span>
+                  <span className="text-6xl font-bold font-serif ml-2"> ({getRatingRange(quest.difficulty)})</span>
                 </div>
                 <div className="text-lg mb-2">Roles</div>
                 <div className="flex flex-wrap gap-4 mt-2 mb-6">
@@ -266,19 +289,31 @@ export default function QuestPage() {
                 <div className="text-lg font-serif mb-8 whitespace-pre-line">{quest.description}</div>
                 <div className="text-lg mb-2">Poster</div>
                 <div className="flex flex-col gap-4 mb-6 md:mb-8">
-                  <div className="flex items-center gap-4 rounded-xl border bg-card px-6 py-2 w-fit">
-                    <span className="w-10 h-10 rounded-full bg-gray-300 inline-block" />
+                  <Button
+                  className='flex items-center gap-4 rounded-xl border px-6 py-1 w-fit h-15'
+                  variant={'outline'}
+                  onClick={() => router.push(`/pages/profile/${quest.poster.id}`)}
+                  >
+                    <span className="w-10 h-10 rounded-full border flex items-center justify-center overflow-hidden">
+                      <IconUser />
+                    </span>
                     <span className="text-lg font-serif">{quest.poster.username}</span>
-                  </div>
+                  </Button>
                 </div>
                 {quest.freelancer && (
                   <>
                     <div className="text-lg mb-2">Assigned Freelancer</div>
                     <div className="flex flex-col gap-4 mb-6 md:mb-8">
-                      <div className="flex items-center gap-4 rounded-xl border bg-card px-6 py-2 w-fit">
-                        <span className="w-10 h-10 rounded-full bg-gray-300 inline-block" />
+                      <Button
+                      className='flex items-center gap-4 rounded-xl border px-6 py-1 w-fit h-15'
+                      variant={'outline'}
+                      onClick={() => router.push(`/pages/profile/${quest.freelancer?.id}`)}
+                      >
+                        <span className="w-10 h-10 rounded-full border flex items-center justify-center overflow-hidden">
+                          <IconUser />
+                        </span>
                         <span className="text-lg font-serif">{quest.freelancer.username}</span>
-                      </div>
+                      </Button>
                     </div>
                   </>
                 )}
@@ -289,16 +324,21 @@ export default function QuestPage() {
                       {quest.applicants.map((applicant, index) => {
                         const username = applicant.username || applicant.user?.username || applicant.applicant?.username || `Applicant ${index + 1}`
                         const applicantId = applicant.id || applicant.freelancer_id || applicant.user_id || applicant.user?.id || applicant.applicant?.id
-                        
+
                         return (
-                          <div
-                            key={`applicant-${applicantId || index}`}
-                            className="flex items-center gap-4 rounded-xl border bg-card px-6 py-2 w-fit justify-between"
+                          <div key={`applicant-${applicantId || index}`} className='flex items-center'>
+                            {/* key={`applicant-${applicantId || index}`}
+                             */}
+                          <Button
+                          className='flex items-center gap-4 rounded-xl border px-6 py-1 w-fit h-15'
+                          variant={'outline'}
+                          onClick={() => router.push(`/pages/profile/${applicantId}`)}
                           >
-                            <div className="flex items-center gap-4">
-                              <span className="w-10 h-10 rounded-full bg-gray-300 inline-block" />
-                              <span className="text-lg font-serif">{username}</span>
-                            </div>
+                            <span className="w-10 h-10 rounded-full border flex items-center justify-center overflow-hidden">
+                              <IconUser />
+                            </span>
+                            <span className="text-lg font-serif">{username}</span>
+                          </Button>
                             {isPoster && quest.is_available && !quest.is_finished && (
                               <Button
                                 onClick={() => handleAccept(applicant)}

@@ -14,7 +14,7 @@ function QuestCard({quest}: Props) {
     }
   return (
     <div>
-        <Card className='h-full text-lg rounded-md p-5' onClick={() => redirectToQuestDetail()}>
+        <Card className='h-full text-lg rounded-md p-5 cursor-pointer' onClick={() => redirectToQuestDetail()}>
             <div className='p-4 flex-cols h-full justify-center text-center space-y-6 border border-primary'>
                 <h1>HELP WANTED</h1>
                 <h1>{quest.name}</h1>

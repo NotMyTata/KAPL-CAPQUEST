@@ -1,40 +1,16 @@
 'use client'
 import { Card } from '@/components/ui/card'
-// import { Badge } from '@/components/ui/badge'
-// import { IconStar } from '@tabler/icons-react'
 import { LuScroll, LuFlaskRound } from 'react-icons/lu'
-// import { IconSwords } from '@tabler/icons-react'
 import { useEffect, useState } from 'react'
-import { useParams } from 'next/navigation'
-// import { createClient } from '@/infrastructure/supabase/client'
+import { useParams, useRouter } from 'next/navigation'
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger, SheetFooter, SheetClose } from '@/components/ui/sheet'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { User } from 'lucide-react'
+import { toast } from 'sonner'
 
-// const skills = [
-//   'JavaScript',
-//   'PostgreSQL',
-//   'PostgreSQL',
-//   'TypeScript',
-//   'Counter Strike',
-//   'PostgreSQL',
-// ];
-
-// const quests = [
-//   {
-//     title: 'E-Commerce Platform',
-//     desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis gravida,',
-//     status: 'Completed',
-//   },
-//   {
-//     title: 'Mobile App Launch',
-//     desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis gravida,',
-//     status: 'Completed',
-//   },
-// ];
 
 interface Profile {
   id: number
@@ -44,13 +20,6 @@ interface Profile {
   avatar: string | null
   user_id: string
 }
-
-// A = 1800+
-// B = 1440 - 1800
-// C = 1080 - 1440
-// D = 720 - 1080
-// E = 360 - 720
-// F =  < 360
 
 function getRank(rating: number){
   if(rating >= 1800 ){
@@ -73,6 +42,7 @@ export default function ProfilePage() {
   const [newUsername ,setNewUsername] = useState<string>('')
   const [newDescription, setNewDescription] = useState<string>('')
   const [canUpdate, setCanUpdate] = useState<boolean>(false)
+  const [isLoadingUpdate, setIsLoadingUpdate] = useState<boolean>(false)
   const params = useParams()
   const profileId = params.id
   
@@ -103,6 +73,7 @@ export default function ProfilePage() {
   description?: string;
   }) {
     try {
+      setIsLoadingUpdate(true)
       const res = await fetch('/api/profile', {
         method: 'PUT',
         headers: {
@@ -117,6 +88,10 @@ export default function ProfilePage() {
         throw new Error(result.error || 'Failed to update profile');
       }
 
+      setIsLoadingUpdate(false)
+      toast.success('Successfully updated profile!')
+
+      window.location.reload();
       console.log('Updated profile:', result.data);
       return result.data;
     } catch (error) {
@@ -145,7 +120,7 @@ export default function ProfilePage() {
 
   if (!profile){
     return (
-      <div className='flex justify-center self-center'>Loading...</div>
+      <div className='flex justify-center self-center font-serif font-bold'>Loading...</div>
     )
   }
 
@@ -154,7 +129,6 @@ export default function ProfilePage() {
     <div>
       {canUpdate ? (
       <div className='w-full flex font-serif'>
-        <h1>Profile</h1>
         <Sheet>
         <SheetTrigger className='ml-auto' asChild>
           <Button variant={'outline'} className='font-serif'>
@@ -164,7 +138,7 @@ export default function ProfilePage() {
         <SheetContent className='font-serif'>
           <SheetHeader>
             <SheetTitle className='text-xl'>Edit Profile</SheetTitle>
-            <SheetDescription>
+            <SheetDescription className='text-md'>
               Edit your profile by filling in the fields you want to edit.
             </SheetDescription>
           </SheetHeader>
@@ -172,6 +146,7 @@ export default function ProfilePage() {
           <div className="grid gap-3">
             <Label 
             htmlFor="username"
+            className='text-lg'
             >Name
             </Label>
             <Input 
@@ -184,6 +159,7 @@ export default function ProfilePage() {
           <div className="grid gap-3">
             <Label 
             htmlFor="description"
+            className='text-lg'
             >
               Description
             </Label>
@@ -195,7 +171,13 @@ export default function ProfilePage() {
         </div>
           <SheetFooter>
             <SheetClose asChild>
-              <Button onClick={() => handleUpdate()}>Save changes</Button>
+              <Button onClick={() => handleUpdate()}>
+                {isLoadingUpdate ? (
+                  <h1>Saving changes...</h1>
+                ):(
+                  <h1>Save Changes</h1>
+                )}
+              </Button>
             </SheetClose>
             <SheetClose asChild>
               <Button variant="outline">Close</Button>
@@ -205,12 +187,12 @@ export default function ProfilePage() {
         </Sheet>
       </div>
       ): (
-         <div className='font-serif'>Profile</div>
+         <div></div>
       )}
       <div className="flex flex-col items-center w-full max-w-4xl mx-auto py-6 gap-6 font-serif text-base">
         {/* Profile Header */}
         <div className="flex flex-col items-center w-full gap-2">
-          <div className="rounded-full border-2 border-primary  w-32 h-32 flex items-center justify-center  overflow-hidden">
+          <div className="rounded-full border-2 border-primary w-32 h-32 flex items-center justify-center overflow-hidden">
             {profile.avatar ? (
               <img
                 src={profile.avatar}

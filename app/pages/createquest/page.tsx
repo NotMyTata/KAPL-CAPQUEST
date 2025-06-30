@@ -8,16 +8,8 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from '@/components/ui/dropdown-menu'
 import { Plus } from 'lucide-react'
+import { toast } from 'sonner'
 
-// const availableRoles = [
-//     "Front-End",
-//     "Back-End",
-//     "AI Wizard",
-//     "DevOps",
-//     "UI/UX Designer",
-//     "Product Manager",
-//     "QA Tester",
-// ]
 
 const ratings = [
     'A',
@@ -39,7 +31,7 @@ function Page() {
     const [selectedRoles, setSelectedRoles] = useState<Role[]>([])
     const [selectedDifficulty, setSelectedDifficulty] = useState('')
     const [availableRoles, setAvailableRoles] = useState<Role[]>([])
-    
+    const [isLoading, setIsLoading] = useState<boolean>(false)
     const fetchRoles = async () => {
         try {
             const res = await fetch("/api/roles", {
@@ -52,7 +44,7 @@ function Page() {
             throw new Error(data.error ?? "Failed to fetch roles");
             }
 
-            console.log("Roles:", data.data); // array of roles
+            console.log("Roles:", data.data);
             setAvailableRoles(data.data)
         } catch (err) {
             console.error("Error fetching roles:", err);
@@ -78,6 +70,7 @@ function Page() {
     
     const postNewQuest = async () => {
         try {
+            setIsLoading(true)
             const res = await fetch('/api/quest', {
             method: 'POST',
             headers: {
@@ -97,7 +90,8 @@ function Page() {
             console.error("Quest creation failed:", data.error);
             return;
             }
-
+            setIsLoading(false)
+            toast.success('Successfully created quest!')
             console.log("Quest created:", data.data);
         } catch (err) {
             console.error("Unexpected error:", err);
@@ -228,7 +222,11 @@ function Page() {
                 className='w-full h-12 text-2xl'
                 onClick={() => handleSubmit()}
                 >
-                    Create
+                    {isLoading ? (
+                        <h1>Creating quest...</h1>
+                    ):(
+                        <h1>Create</h1>
+                    )}
                 </Button>
             </div>
         </Card>

@@ -38,44 +38,6 @@ export interface Quest {
   freelancer: Freelancer
 }
 
-// const questList: Quest[] = [
-//   {
-//     id: 1,
-//     name: 'Website Development',
-//     difficulty: 'A',
-//     rating: 1800,
-//     description:
-//       'Build a responsive website using modern technologies like React and Node.js. Ensure cross-platform compatibility and accessibility.',
-//     roles: ['Front-End Developers', 'Back-end Developers', 'AI - Engineers'],
-//     clients: [{ id: 1, username: 'poster01' }],
-//     poster: {id: 1, username: 'JobPoster01'}
-//   },
-//   {
-//     id: 2,
-//     name: 'Mobile App Redesign',
-//     difficulty: 'B',
-//     rating: 1600,
-//     description:
-//       'Redesign an outdated mobile application with a modern, clean UI using Flutter. Focus on user-centered design principles.',
-//     roles: ['UI/UX Designer', 'Flutter Devs'],
-//     clients: [{ id: 2, username: 'poster02' }],
-//     poster: {id: 1, username: 'JobPoster01'}
-//   },
-//   {
-//     id: 3,
-//     name: 'Data Analytics',
-//     difficulty: 'C',
-//     rating: 1400,
-//     description:
-//       'Perform data analysis on customer behavior to generate actionable insights using Python and data visualization tools.',
-//     roles: ['Data Scientists', 'Python Devs'],
-//     clients: [{ id: 3, username: 'poster03' }],
-//     poster: {id: 1, username: 'JobPoster01'}
-//   },
-// ]
-
-
-
 function Page() {
   const [filters, setFilters] = useState<{ role?: string; difficulty?: string }>({})
   const [quests, setQuests] = useState<Quest[]>([])
@@ -85,7 +47,6 @@ function Page() {
         try {
             const res = await fetch('/api/quest')
 
-            // Check if the response is NOT OK (status not in 200–299 range)
             if (!res.ok) {
             const errorData = await res.json()
             console.error("Error fetching quests:", errorData.error || res.statusText)
@@ -97,7 +58,6 @@ function Page() {
             console.log("quests:", data.data)
 
         } catch (error) {
-            // Network or parsing error
             console.error("Fetch failed:", error)
         }
     }

@@ -71,23 +71,33 @@ function MyQuestsTicket({quest}: Props) {
 
             <div className="space-y-4">
                 <div>
-                <div className="text-sm font-md mb-2">Roles:</div>
-                <div className="flex flex-wrap gap-2">
-                    {quest.roles.map((role, index) => (
-                    <Badge key={index} className="">
-                        {role}
-                    </Badge>
-                    ))}
-                </div>
-                </div>
+                    <div>Status:</div>
+                     {quest.is_available ? (
+                        <Badge className="bg-green-500">Choose a freelancer</Badge>
+                    ) : quest.is_finished ? (
+                        <Badge variant={'secondary'} >Finished</Badge>
+                    ) : quest.freelancer ? (
+                        <Badge className='bg-yellow-400 text-black'>In Progress</Badge>
+                    ) : (
+                        <span className="text-red-500">Unavailable</span>
+                    )}
+                    <div className="text-sm font-md mb-2 mt-2">Roles:</div>
+                    <div className="flex flex-wrap gap-2">
+                        {quest.roles.map((role, index) => (
+                        <Badge key={index} className="">
+                            {role}
+                        </Badge>
+                        ))}
+                    </div>
+                    </div>
 
-                <div className="flex gap-2 pt-2 w-fit">
-                <Button variant={'outline'} size={'default'} className="flex-1" onClick={() => redirectToQuestDetail()}>
-                    <CheckCircle2 className="w-4 h-4 mr-1" />
-                    Details
-                </Button>
+                    <div className="flex gap-2 pt-2 w-fit">
+                    <Button variant={'outline'} size={'default'} className="flex-1" onClick={() => redirectToQuestDetail()}>
+                        <CheckCircle2 className="w-4 h-4 mr-1" />
+                        Details
+                    </Button>
+                    </div>
                 </div>
-            </div>
             </div>
         </CardContent>
         </Card>
