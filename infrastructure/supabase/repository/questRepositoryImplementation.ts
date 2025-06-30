@@ -1,8 +1,8 @@
-import { Quest } from "@/domain/entities/quest";
+import { Quest } from "@/domain/entity/quest";
 import { createClient } from "../server";
-import { questRepository } from "@/domain/repositories/questRepository";
-import { QuestApplicant } from "@/domain/entities/questApplicant";
-import { QuestRoles } from "@/domain/entities/questRoles";
+import { questRepository } from "@/domain/repository/questRepository";
+import { QuestApplicant } from "@/domain/entity/questApplicant";
+import { QuestRoles } from "@/domain/entity/questRoles";
 import { addQuestDTO } from "@/domain/dto/addQuestDTO";
 
 export class SupabaseQuestRepository implements questRepository {

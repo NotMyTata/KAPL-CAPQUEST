@@ -1,5 +1,5 @@
 import { createProfileDTO } from "@/domain/dto/createProfileDTO";
-import { profileRepository } from "@/domain/repositories/profileRepository";
+import { profileRepository } from "@/domain/repository/profileRepository";
 
 export async function updateProfileUseCase(
     dto : createProfileDTO,

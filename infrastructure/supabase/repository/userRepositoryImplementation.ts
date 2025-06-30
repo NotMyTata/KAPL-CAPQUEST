@@ -1,4 +1,4 @@
-import { userRepository } from "@/domain/repositories/userRepository";
+import { userRepository } from "@/domain/repository/userRepository";
 import { createClient } from "../server";
 
 export class SupabaseUserRepository implements userRepository {

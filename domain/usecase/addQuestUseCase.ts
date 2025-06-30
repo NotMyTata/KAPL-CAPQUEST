@@ -1,6 +1,6 @@
 import { addQuestDTO } from "@/domain/dto/addQuestDTO";
-import { questRepository } from "@/domain/repositories/questRepository";
-import { roleRepository } from "@/domain/repositories/roleRepository";
+import { questRepository } from "@/domain/repository/questRepository";
+import { roleRepository } from "@/domain/repository/roleRepository";
 
 export async function addQuestUseCase(questRepo: questRepository, roleRepo: roleRepository, dto: addQuestDTO) {
         let description = dto.description ?? "";
@@ -13,7 +13,12 @@ export async function addQuestUseCase(questRepo: questRepository, roleRepo: role
         }
 
         for (const roleId of uniqueRoleIds) {
-            const existingRole = await roleRepo.findById(roleId);
+            let existingRole;
+            try {
+                existingRole = await roleRepo.findById(roleId);
+            } catch (error) {
+                throw error;
+            }
             if (!existingRole) throw new Error(`Role with ID ${roleId} doesn't exist`);
         }
 

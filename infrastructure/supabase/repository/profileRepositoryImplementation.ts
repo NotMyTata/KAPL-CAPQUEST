@@ -1,7 +1,7 @@
-import { profileRepository } from "@/domain/repositories/profileRepository";
+import { profileRepository } from "@/domain/repository/profileRepository";
 import { createClient } from "../server";
 import { createProfileDTO } from "@/domain/dto/createProfileDTO";
-import { Profile } from "@/domain/entities/profile";
+import { Profile } from "@/domain/entity/profile";
 import { updateRatingDTO } from "@/domain/dto/updateRatingDTO";
 
 export class SupabaseProfileRepository implements profileRepository {

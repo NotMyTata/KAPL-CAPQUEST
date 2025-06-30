@@ -1,6 +1,6 @@
 import { createProfileDTO } from "@/domain/dto/createProfileDTO"
-import { profileRepository } from "@/domain/repositories/profileRepository"
-import { userRepository } from "@/domain/repositories/userRepository"
+import { profileRepository } from "@/domain/repository/profileRepository"
+import { userRepository } from "@/domain/repository/userRepository"
 
 export async function createNewProfile(
   userRepo: userRepository,
