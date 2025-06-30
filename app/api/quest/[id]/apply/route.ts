@@ -6,7 +6,7 @@ import { SupabaseQuestRepository } from "@/infrastructure/supabase/repository/qu
 import { SupabaseUserRepository } from "@/infrastructure/supabase/repository/userRepositoryImplementation";
 import { NextResponse } from "next/server";
 
-export async function POST(req: Request, { params }: {params: { id: number } }) {
+export async function POST(req: Request, { params }: {params: Promise<{ id: number }> }) {
     try {
         const questRepo = new SupabaseQuestRepository();
         const userRepo = new SupabaseUserRepository();

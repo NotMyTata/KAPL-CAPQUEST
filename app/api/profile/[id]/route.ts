@@ -4,10 +4,10 @@ import { getProfileByIdUseCase } from "@/domain/usecase/getProfileByIdUseCase";
 
 export async function GET(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const profileRepo = new SupabaseProfileRepository();
-  const profile = await getProfileByIdUseCase(profileRepo, params.id);
+  const profile = await getProfileByIdUseCase(profileRepo, (await params).id);
 
   if (!profile) {
     return NextResponse.json({
