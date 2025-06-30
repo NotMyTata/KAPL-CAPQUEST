@@ -1,5 +1,5 @@
-import { User } from "@/domain/entities/user";
-import { authRepository } from "@/domain/repositories/authRepository";
+import { User } from "@/domain/entity/user";
+import { authRepository } from "@/domain/repository/authRepository";
 import { createClient } from "../server";
 
 export class SupabaseAuthRepository implements authRepository {

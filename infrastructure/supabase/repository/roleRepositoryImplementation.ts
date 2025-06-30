@@ -1,5 +1,5 @@
-import { Role } from "@/domain/entities/role";
-import { roleRepository } from "@/domain/repositories/roleRepository";
+import { Role } from "@/domain/entity/role";
+import { roleRepository } from "@/domain/repository/roleRepository";
 import { createClient } from "../server";
 
 export class SupabaseRoleRepository implements roleRepository{

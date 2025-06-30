@@ -1,6 +1,5 @@
 import { fetchMyQuestListUseCase } from "@/domain/usecase/fetchMyQuestListUseCase";
-import { getCurrentUserUseCase } from "@/domain/usecase/getCurrentUserUseCase";
-import { getProfileByUserIdUseCase } from "@/domain/usecase/getProfileByUserIdUseCase";
+import { getCurrentProfileUseCase } from "@/domain/usecase/getCurrentProfileUseCase";
 import { SupabaseProfileRepository } from "@/infrastructure/supabase/repository/profileRepositoryImplementation";
 import { SupabaseQuestRepository } from "@/infrastructure/supabase/repository/questRepositoryImplementation";
 import { SupabaseUserRepository } from "@/infrastructure/supabase/repository/userRepositoryImplementation";
@@ -12,17 +11,7 @@ export async function GET(req: Request) {
         const userRepo = new SupabaseUserRepository();
         const profileRepo = new SupabaseProfileRepository();
 
-        const user = await getCurrentUserUseCase(userRepo);
-
-        if (!user) {
-            return NextResponse.json({error: "User not logged in" }, {status: 400});
-        }
-
-        const profile = await getProfileByUserIdUseCase(profileRepo, user.id);
-
-        if (!profile) {
-            return NextResponse.json({ error: "User does not exist" }, {status: 400});
-        }
+        const profile = await getCurrentProfileUseCase(profileRepo, userRepo);
 
         const quest = await fetchMyQuestListUseCase(questRepo, profile.id);
         return NextResponse.json({ data: quest }, {status: 200});

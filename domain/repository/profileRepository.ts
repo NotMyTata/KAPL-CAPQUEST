@@ -1,6 +1,6 @@
 import { createProfileDTO } from "../dto/createProfileDTO";
 import { updateRatingDTO } from "../dto/updateRatingDTO";
-import { Profile } from "../entities/profile";
+import { Profile } from "../entity/profile";
 
 export interface profileRepository{
     createNewProfile(

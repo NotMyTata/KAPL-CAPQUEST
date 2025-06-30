@@ -1,4 +1,5 @@
 import { createNewProfile } from "@/domain/usecase/createNewUserProfile";
+import { getCurrentProfileUseCase } from "@/domain/usecase/getCurrentProfileUseCase";
 import { getCurrentUserUseCase } from "@/domain/usecase/getCurrentUserUseCase";
 import { getProfileByUserIdUseCase } from "@/domain/usecase/getProfileByUserIdUseCase";
 import { updateProfileUseCase } from "@/domain/usecase/updateProfile";
@@ -7,29 +8,20 @@ import { SupabaseUserRepository } from "@/infrastructure/supabase/repository/use
 import { NextResponse } from "next/server";
 
 export async function GET(req: Request){
-    const userRepo = new SupabaseUserRepository()
-    const profileRepo = new SupabaseProfileRepository()
-    
-    const user = await getCurrentUserUseCase(userRepo);
+    try {
+        const userRepo = new SupabaseUserRepository()
+        const profileRepo = new SupabaseProfileRepository()
 
-    if(!user) return NextResponse.json({
-        error : "User not found",
-        status: 400
-    })
+        const profile = await getCurrentProfileUseCase(profileRepo, userRepo)
 
-    const profile = await getProfileByUserIdUseCase(profileRepo, user.id);
-
-    if(!profile){
-        return NextResponse.json({
-            error: "Profile not found",
-            status : 400
-        })
+        return NextResponse.json({ data : profile }, { status: 200 });
+    } catch (error) {
+        let errorMessage = "Unknown Error"
+        if (error instanceof Error) {
+            errorMessage = error.message
+        }
+        return NextResponse.json({ error: errorMessage }, { status: 400 });
     }
-
-    return NextResponse.json({
-        data : profile,
-        status : 200
-    })
 }
 
 export async function POST(req: Request){

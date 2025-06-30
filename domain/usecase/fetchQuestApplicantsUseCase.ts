@@ -1,5 +1,5 @@
-import { QuestApplicant } from "../entities/questApplicant";
-import { questRepository } from "../repositories/questRepository";
+import { QuestApplicant } from "@/domain/entity/questApplicant";
+import { questRepository } from "@/domain/repository/questRepository";
 
 export async function fetchQuestApplicantsUseCase(questRepo: questRepository, questId: number, loggedUserId: number) : Promise<QuestApplicant[]> {
     const quest = await questRepo.findById(questId);

@@ -1,6 +1,6 @@
 import { addQuestDTO } from "../dto/addQuestDTO";
-import { Quest } from "../entities/quest";
-import { QuestApplicant } from "../entities/questApplicant";
+import { Quest } from "../entity/quest";
+import { QuestApplicant } from "../entity/questApplicant";
 
 export interface questRepository {
     findById(id: number): Promise<Quest | null>;

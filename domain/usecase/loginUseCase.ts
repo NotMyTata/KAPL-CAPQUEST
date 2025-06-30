@@ -1,5 +1,5 @@
 import { loginDTO } from "@/domain/dto/loginDTO";
-import { authRepository } from "@/domain/repositories/authRepository";
+import { authRepository } from "@/domain/repository/authRepository";
 
 export async function loginUseCase(
     dto: loginDTO,
