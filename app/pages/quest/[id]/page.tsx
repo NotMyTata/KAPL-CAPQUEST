@@ -331,6 +331,7 @@ export default function QuestPage() {
                 {canApply && (
                   <Button
                     onClick={handleApply}
+                    variant={'outline'}
                     disabled={applying}
                     className="rounded-xl border bg-card text-card-foreground text-3xl font-bold font-serif py-6 w-full"
                   >
