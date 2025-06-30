@@ -1,5 +1,5 @@
 'use client'
-import {IconSwords, IconSword, IconShield, IconBuildingCastle, IconUser, IconMail} from '@tabler/icons-react'
+import {IconSwords, IconSword, IconShield, IconBuildingCastle, IconUser, IconMail, IconLogout} from '@tabler/icons-react'
 import {
   Sidebar,
   SidebarContent,
@@ -62,6 +62,22 @@ export function AppSidebar() {
   useEffect(() => {
     fetchUser()
   },[])
+
+  async function handleLogout(){
+      const res = await fetch("/api/auth/logout", {
+      method: "GET",
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      console.error("Logout failed:", data.error);
+    } else {
+      // Redirect or refresh page
+      console.log("Successfully logged out")
+      window.location.href = "/pages/login";
+    }
+  }
 
   return (
     <Sidebar collapsible='icon' className='font-sans'>
@@ -131,6 +147,16 @@ export function AppSidebar() {
                 My Character
               </SidebarMenuButton>
             </SidebarMenuItem>
+              <SidebarSeparator className='my-4'/>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                className='text-lg'
+                onClick={() => handleLogout()}
+                >
+                  <IconLogout className='mr-2'/>
+                  Logout
+                </SidebarMenuButton>
+              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
