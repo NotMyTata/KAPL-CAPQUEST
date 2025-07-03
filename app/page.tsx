@@ -5,12 +5,37 @@ import { MapIcon, SwordIcon, SwordsIcon, Users } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { ThemeSwitcher } from '@/components/theme-switcher'
+import { createClient } from '@/infrastructure/supabase/client'
+
+async function isLoggedIn(){
+    const supabase = await createClient();
+    
+      const {
+        data: { user },
+    } = await supabase.auth.getUser();
+    
+    if (user){
+        return true
+    }
+    return false
+}
 
 function LandingPage() {
+    
     const router = useRouter()
+
+    useEffect(() => {
+        const checkLogin = async () => {
+            if (await isLoggedIn()) {
+            router.push('/pages/questlist')
+            }
+        }
+
+        checkLogin()
+    },[])
   return (
     <div>
         <nav className='flex p-4 items-center bg-background justify-between border-b sticky top-0 z-50'>
