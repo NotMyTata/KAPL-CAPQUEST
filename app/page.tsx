@@ -13,7 +13,7 @@ function LandingPage() {
     const router = useRouter()
   return (
     <div>
-        <nav className='flex p-4 items-center justify-between border-b sticky top-0 z-50'>
+        <nav className='flex p-4 items-center bg-background justify-between border-b sticky top-0 z-50'>
             <Image
             width={500}
             height={500}
@@ -23,7 +23,7 @@ function LandingPage() {
             />
             <div className='flex items-center'>
                 <div className='flex gap-4'>
-                    <Button variant={'outline'} className='visible max-sm:invisible'>
+                    <Button variant={'outline'} className='visible max-sm:hidden'>
                         <Link href={'/auth/sign-up'}>
                         Sign Up
                         </Link>
