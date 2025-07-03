@@ -11,6 +11,7 @@ export default {
   theme: {
   	extend: {
 		fontFamily: {
+			instrument: ['var(--font-instrument)', 'sans'],
 			sans: ['var(--font-sans)', 'sans-serif'],
 			serif: ['EB Garamond', 'serif'],
 		},
