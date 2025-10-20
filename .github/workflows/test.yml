@@ -8,10 +8,12 @@ permissions:
   actions: write
   contents: read
   id-token: write
+  pull-requests: write
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -24,8 +26,13 @@ jobs:
       - name: Run tests with coverage
         run: npx jest --coverage
 
+      - name: Run Qlty analysis (includes ESLint + AI autofixes)
+        uses: qltysh/qlty-action@v1
+        with:
+          oidc: true
+
       - name: Upload coverage to Qlty
         uses: qltysh/qlty-action/coverage@v1
         with:
-          token: ${{ secrets.QLTY_COVERAGE_TOKEN }}
+          oidc: true
           files: coverage/lcov.info
