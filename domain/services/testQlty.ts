@@ -1,7 +1,13 @@
-export function testQlty(a: number, b: number): number{
+export function testQlty(a: number): number{
     let total = 0;
-    for(a; a < b; a--){
-        total += a;
+    if(a > 0){
+        for(a; a > -1; a++){
+            total += a;
+        }
+    } else {
+        for(a; a < 1; a--){
+            total += a;
+        }
     }
     return total;
 }
