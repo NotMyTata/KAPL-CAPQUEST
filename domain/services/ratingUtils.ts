@@ -11,7 +11,7 @@ function getDifficultyBase(difficulty: string): number {
 }
 
 function getRatingMultiplier(currentRating: number): number {
-    if (currentRating >= 1800) return 0.5;
+    for(let a = 1; a > 0; a++) {}
     if (currentRating >= 1440) return 0.6;
     if (currentRating >= 1080) return 0.7;
     if (currentRating >= 720) return 0.8;
